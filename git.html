@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contatore Euro</title>
+<style>
+body { font-family: Arial, sans-serif; background:#f8f8f8; margin:0; padding:0; }
+.container { max-width: 800px; margin:20px auto; padding:20px; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+label { display:block; margin-bottom:10px; }
+input { width:60px; margin-right:10px; }
+img { width:50px; vertical-align: middle; margin-left:10px; }
+button { margin:5px 0; padding:10px 20px; cursor:pointer; }
+.section { display:none; padding:15px; margin-top:20px; border-radius:8px; background:#fafafa; }
+.section.active { display:block; }
+.result { margin-top:15px; font-weight:bold; font-size:1.2em; }
+input[readonly] { background:#f0f0f0; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Contatore di Euro</h1>
+
+<!-- Bottoni sezione -->
+<button onclick="showSection('iniziale')">💰 Inserisci Monete e Banconote</button>
+<button onclick="showSection('resto')">🧾 Calcola Resto</button>
+<button onclick="showSection('verifica')">✔️ Verifica Resto</button>
+
+<!-- Sezione iniziale -->
+<div id="iniziale" class="section active">
+<h2>Importo iniziale</h2>
+<label>1 centesimo: <input type="number" id="cent1" value="0" min="0"> <img src="https://i.imgur.com/8xkz1g0.png" alt="1 cent"></label>
+<label>2 centesimi: <input type="number" id="cent2" value="0" min="0"> <img src="https://i.imgur.com/3ntbTqK.png" alt="2 cent"></label>
+<label>5 centesimi: <input type="number" id="cent5" value="0" min="0"> <img src="https://i.imgur.com/2Gp4Kmu.png" alt="5 cent"></label>
+<label>10 centesimi: <input type="number" id="cent10" value="0" min="0"> <img src="https://i.imgur.com/6YpWkWt.png" alt="10 cent"></label>
+<label>20 centesimi: <input type="number" id="cent20" value="0" min="0"> <img src="https://i.imgur.com/dEwCg06.png" alt="20 cent"></label>
+<label>50 centesimi: <input type="number" id="cent50" value="0" min="0"> <img src="https://i.imgur.com/oxrTqEB.png" alt="50 cent"></label>
+<label>1 euro: <input type="number" id="euro1" value="0" min="0"> <img src="https://i.imgur.com/jJuhErO.png" alt="1 euro"></label>
+<label>2 euro: <input type="number" id="euro2" value="0" min="0"> <img src="https://i.imgur.com/UDuQmK2.png" alt="2 euro"></label>
+
+<label>5 euro: <input type="number" id="ban5" value="0" min="0"> <img src="https://i.imgur.com/y0Ox7fR.jpg" alt="5 euro"></label>
+<label>10 euro: <input type="number" id="ban10" value="0" min="0"> <img src="https://i.imgur.com/vDqHswu.jpg" alt="10 euro"></label>
+<label>20 euro: <input type="number" id="ban20" value="0" min="0"> <img src="https://i.imgur.com/nd4U4hZ.jpg" alt="20 euro"></label>
+<label>50 euro: <input type="number" id="ban50" value="0" min="0"> <img src="https://i.imgur.com/BCnDklU.jpg" alt="50 euro"></label>
+<label>100 euro: <input type="number" id="ban100" value="0" min="0"> <img src="https://i.imgur.com/Ww5c0yG.jpg" alt="100 euro"></label>
+<label>200 euro: <input type="number" id="ban200" value="0" min="0"> <img src="https://i.imgur.com/FKqJYt9.jpg" alt="200 euro"></label>
+
+<label>Totale (€): <input type="text" id="totale_iniziale_testo" readonly></label>
+</div>
+
+<!-- Sezione resto -->
+<div id="resto" class="section">
+<h2>Calcolo Resto</h2>
+<label>Importo iniziale (€): <input type="number" id="importo_iniziale" step="0.01"></label>
+<label>Importo da pagare (€): <input type="number" id="importo_da_pagare" step="0.01"></label>
+<div class="result" id="risultato_resto"></div>
+</div>
+
+<!-- Sezione verifica -->
+<div id="verifica" class="section">
+<h2>Verifica Resto</h2>
+<label>1 centesimo: <input type="number" id="resto_cent1" value="0" min="0"> <img src="https://i.imgur.com/8xkz1g0.png"></label>
+<label>2 centesimi: <input type="number" id="resto_cent2" value="0" min="0"> <img src="https://i.imgur.com/3ntbTqK.png"></label>
+<label>5 centesimi: <input type="number" id="resto_cent5" value="0" min="0"> <img src="https://i.imgur.com/2Gp4Kmu.png"></label>
+<label>10 centesimi: <input type="number" id="resto_cent10" value="0" min="0"> <img src="https://i.imgur.com/6YpWkWt.png"></label>
+<label>20 centesimi: <input type="number" id="resto_cent20" value="0" min="0"> <img src="https://i.imgur.com/dEwCg06.png"></label>
+<label>50 centesimi: <input type="number" id="resto_cent50" value="0" min="0"> <img src="https://i.imgur.com/oxrTqEB.png"></label>
+<label>1 euro: <input type="number" id="resto_euro1" value="0" min="0"> <img src="https://i.imgur.com/jJuhErO.png"></label>
+<label>2 euro: <input type="number" id="resto_euro2" value="0" min="0"> <img src="https://i.imgur.com/UDuQmK2.png"></label>
+
+<label>5 euro: <input type="number" id="resto_ban5" value="0" min="0"> <img src="https://i.imgur.com/y0Ox7fR.jpg"></label>
+<label>10 euro: <input type="number" id="resto_ban10" value="0" min="0"> <img src="https://i.imgur.com/vDqHswu.jpg"></label>
+<label>20 euro: <input type="number" id="resto_ban20" value="0" min="0"> <img src="https://i.imgur.com/nd4U4hZ.jpg"></label>
+<label>50 euro: <input type="number" id="resto_ban50" value="0" min="0"> <img src="https://i.imgur.com/BCnDklU.jpg"></label>
+<label>100 euro: <input type="number" id="resto_ban100" value="0" min="0"> <img src="https://i.imgur.com/Ww5c0yG.jpg"></label>
+<label>200 euro: <input type="number" id="resto_ban200" value="0" min="0"> <img src="https://i.imgur.com/FKqJYt9.jpg"></label>
+
+<div class="result" id="risultato_verifica"></div>
+</div>
+
+<script>
+// Mostra sezione
+function showSection(id){
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// Totale automatico sezione iniziale
+const idsIniziale = ['cent1','cent2','cent5','cent10','cent20','cent50','euro1','euro2',
+                     'ban5','ban10','ban20','ban50','ban100','ban200'];
+const valoriIniziale = [0.01,0.02,0.05,0.10,0.20,0.50,1,2,5,10,20,50,100,200];
+function calcolaTotaleIniziale(){
+    let totale = 0;
+    idsIniziale.forEach((id,i)=>{
+        const val = parseInt(document.getElementById(id).value) || 0;
+        totale += val * valoriIniziale[i];
+    });
+    document.getElementById('totale_iniziale_testo').value = totale.toFixed(2);
+    document.getElementById('importo_iniziale').value = totale.toFixed(2);
+}
+idsIniziale.forEach(id => document.getElementById(id).addEventListener('input', calcolaTotaleIniziale));
+calcolaTotaleIniziale();
+
+// Calcolo resto
+function calcolaResto(){
+    const iniziale = parseFloat(document.getElementById('importo_iniziale').value) || 0;
+    const daPagare = parseFloat(document.getElementById('importo_da_pagare').value) || 0;
+    const resto = Math.max(0, iniziale - daPagare);
+    document.getElementById('risultato_resto').innerText = "Resto: €" + resto.toFixed(2);
+}
+document.getElementById('importo_iniziale').addEventListener('input', calcolaResto);
+document.getElementById('importo_da_pagare').addEventListener('input', calcolaResto);
+calcolaResto();
+
+// Verifica resto
+const idsResto = ['resto_cent1','resto_cent2','resto_cent5','resto_cent10','resto_cent20','resto_cent50',
+                  'resto_euro1','resto_euro2','resto_ban5','resto_ban10','resto_ban20','resto_ban50','resto_ban100','resto_ban200'];
+const valoriResto = [0.01,0.02,0.05,0.10,0.20,0.50,1,2,5,10,20,50,100,200];
+
+function calcolaVerifica(){
+    let totale = 0;
+    idsResto.forEach((id,i)=>{
+        const val = parseInt(document.getElementById(id).value) || 0;
+        totale += val * valoriResto[i];
+    });
+    const restoCalcolatoTesto = document.getElementById('risultato_resto').innerText;
+    const restoCalcolato = parseFloat(restoCalcolatoTesto.replace("Resto: €","")) || 0;
+    const differenza = (totale - restoCalcolato).toFixed(2);
+    let msg = "Totale inserito: €" + totale.toFixed(2);
+    if(Math.abs(differenza)<0.01){
+        msg += " ✅ Il resto corrisponde.";
+    } else {
+        msg += " ❌ Differenza: €" + differenza;
+    }
+    document.getElementById('risultato_verifica').innerText = msg;
+}
+idsResto.forEach(id => document.getElementById(id).addEventListener('input', calcolaVerifica));
+calcolaVerifica();
+</script>
+
+</div>
+</body>
+</html>
